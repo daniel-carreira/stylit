@@ -1,12 +1,9 @@
-FROM python:3.7-alpine
+FROM python:3.7
 WORKDIR /usr/app
 
-COPY ./requirements.txt
+COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY ./model .
-COPY ./model.pt .
-COPY ./server.py .
-COPY ./service-account.json .
+COPY . .
 
 ENTRYPOINT ["python", "server.py"]
