@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sign_in">Continue com Google</string>
+    <string name="sign_out">Terminar sessão</string>
+    <string name="help_target">Escolhe um alvo</string>
+    <string name="help_style">Escolhe um estilo</string>
+    <string name="input">Entrada</string>
+    <string name="output">Saída</string>
+    <string name="home">Início</string>
+    <string name="archive">Arquivo</string>
+    <string name="profile">Perfil</string>
+    <string name="action_settings">Definições</string>
+    <string name="help">Ajuda</string>
+    <string name="start">Começar</string>
+    <string name="artistically_blending_two_images">Mistura artística de duas images</string>
+    <string name="artistically_styling_live_feed">Filtros artísticos para câmara</string>
+    <string name="artistically_replacing_faces">Substitui caras</string>
+</resources>
