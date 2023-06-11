@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Stylit"
         tools:targetApi="31">
         <activity
+            android:name=".ui.archive.FullScreenActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Stylit">
