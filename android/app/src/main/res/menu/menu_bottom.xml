@@ -5,6 +5,10 @@
         android:title="@string/home"
         android:enabled="true"
         android:icon="@drawable/selector_home"/>
+    <item android:id="@+id/takephoto"
+        android:title="Take Photo"
+        android:enabled="true"
+        android:icon="@drawable/baseline_camera_enhance_24"/>
     <item android:id="@+id/archive"
         android:title="@string/archive"
         android:enabled="true"

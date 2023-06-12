@@ -16,6 +16,10 @@ android {
     namespace 'com.stylit'
     compileSdk 33
 
+    buildFeatures{
+        viewBinding true
+    }
+
     defaultConfig {
         applicationId "com.stylit"
         minSdk 26
