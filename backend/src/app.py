@@ -25,8 +25,8 @@ def generate_images():
     Path(dir_name).mkdir(parents=True, exist_ok=True)
     
     for idx, img in enumerate(generated_imgs):
-        filename = f"{time.strftime('%Y-%m-%d_%H-%M-%S')}_{idx}.jpg"
-        img.save(os.path.join(dir_name, filename), format='jpg')
+        filename = f"{time.strftime('%Y-%m-%d_%H-%M-%S')}_{idx}.jpeg"
+        img.save(os.path.join(dir_name, filename), format='jpeg')
         returned_generated_images.append(filename)
 
     print(f"Created {num_images} images from text prompt [{text_prompt}]")
