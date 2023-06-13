@@ -19,6 +19,32 @@
     <string name="artistically_blending_two_images">Artistically blending two images</string>
     <string name="artistically_styling_live_feed">Artistically styling live feed</string>
     <string name="artistically_replacing_faces">Artistically replacing faces</string>
+
+
+    <string name="alt_bottom_sheet_thread_button_minus" translatable="false">Decrease the number of threads used</string>
+    <string name="alt_bottom_sheet_thread_button_plus" translatable="false">Increase the number of threads used</string>
+    <string name="label_inference_time" translatable="false">Inference Time</string>
+    <string name="label_fps" translatable="false">Frames per Second</string>
+    <string name="label_threads" translatable="false">Number of Threads</string>
+    <string name="label_delegate" translatable="false">Delegate</string>
+    <string name="label_models" translatable="false">ML Model</string>
+    <string name="default_threshold" translatable="false">0.50</string>
+    <string name="default_inference_time" translatable="false">0ms</string>
+    <string name="default_max_results" translatable="false">3</string>
+    <string name="fr_camera_btn_take_picture" translatable="false">Take Picture</string>
+    <string name="btn_transfer" translatable="false">Run</string>
+
+    <string-array name="delegate_spinner_titles">
+        <item>CPU</item>
+        <item>GPU</item>
+        <item>NNAPI</item>
+    </string-array>
+
+    <string-array name="models_spinner_titles">
+        <item>INT8 Quantized</item>
+        <item>F16 Quantized</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
