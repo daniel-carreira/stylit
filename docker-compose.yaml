@@ -13,10 +13,3 @@ services:
         reservations:
           devices:
             - capabilities: [ gpu ]
-    depends_on:
-      - redis-server
-
-  redis-server:
-    image: redis
-    ports:
-      - "6379:6379"

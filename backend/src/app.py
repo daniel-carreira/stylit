@@ -1,54 +1,44 @@
-from flask import Flask, jsonify, request
+import os
+from pathlib import Path
+import time
+
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
-from flask_rq2 import RQ
-from model.stable_diffusion_wrapper import StableDiffusionV2
-import uuid
+from stable_diffusion import StableDiffusionV2
 
 app = Flask(__name__)
-app.config["RQ_REDIS_URL"] = "redis://localhost:6379/0"
-app.static_folder = "public"
-app.static_url_path = "/assets"
+cors = CORS(app, resources={r"/api/v1/images/*": {"origins": "*"}})
 
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
-rq = RQ(app)
+print("Starting Server...")
 
-stable_diff_model = StableDiffusionV2()
+stable_diff_model = None
 
-@rq.job
-def generate_images_task(text_prompt, num_images):
-
-    images = stable_diff_model.generate_images(text_prompt, num_images)
-    images_urls = []
-
-    for image in images:
-        filename = f"{uuid.uuid1()}.jpg"
-        image.save(filename)
-        images_urls.append(f"http://localhost:8080/assets/{filename}")
-        
-    return images_urls
-
-@app.route("/v1/images/generations", methods=["POST"])
-def generate_images_api():
+@app.route("/api/v1/images/generate", methods=["POST"])
+def generate_images():
     json_data = request.get_json(force=True)
     text_prompt = json_data["text"]
     num_images = json_data["num_images"]
+    generated_imgs = stable_diff_model.generate_images(text_prompt, num_images)
 
-    task = generate_images_task.queue(text_prompt, num_images)
-    return jsonify({"task_id": task.id})
+    returned_generated_images = []
+    dir_name = "generations"
+    Path(dir_name).mkdir(parents=True, exist_ok=True)
+    
+    for idx, img in enumerate(generated_imgs):
+        filename = f"{time.strftime('%Y-%m-%d_%H-%M-%S')}_{idx}.jpg"
+        img.save(os.path.join(dir_name, filename), format='jpg')
+        returned_generated_images.append(filename)
 
-@app.route("/v1/images/tasks/<task_id>", methods=["GET"])
-def get_task_status(task_id):
-    task = rq.get_task(task_id)
-    if task.is_finished:
-        # Task is finished, retrieve the generated images
-        images = task.result
-        return jsonify({"status": "finished", "images": images})
-    elif task.is_queued:
-        return jsonify({"status": "queued"})
-    elif task.is_started:
-        return jsonify({"status": "started"})
-    else:
-        return jsonify({"status": "unknown"})
+    print(f"Created {num_images} images from text prompt [{text_prompt}]")
+    return jsonify({'generations': returned_generated_images})
+
+@app.route('/api/v1/images/<filename>')
+def download_file(filename):
+    return send_from_directory("generations", filename)
+
+with app.app_context():
+    stable_diff_model = StableDiffusionV2()
+    print("Server is up and running!")
     
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=8080, debug=False)

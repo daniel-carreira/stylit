@@ -9,9 +9,6 @@ WORKDIR /app
 # install pip
 RUN apt-get update && apt-get install -y python3-pip
 
-# install git
-RUN apt-get install -y git
-
 # update pip
 RUN pip3 install --upgrade pip
 
@@ -25,7 +22,7 @@ RUN pip3 install -r requirements.txt
 RUN pip3 install --upgrade "jax[cuda]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 
 # add source code
-COPY . /app
+COPY ./src /app
 
 # run server
-CMD python3 app.py --port 8080
+CMD python3 app.py
