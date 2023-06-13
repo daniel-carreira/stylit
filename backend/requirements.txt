@@ -1,0 +1,12 @@
+Flask==2.1.0
+Flask-Cors==3.0.9
+Flask-RESTful==0.3.8
+flask-rq
+rq
+flax==0.5.0
+tqdm
+accelerate
+transformers
+diffusers
+scipy
+safetensors

@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  stylit-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ gpu ]
+    depends_on:
+      - redis-server
+
+  redis-server:
+    image: redis
+    ports:
+      - "6379:6379"
