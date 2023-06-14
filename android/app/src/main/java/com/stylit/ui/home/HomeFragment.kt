@@ -92,13 +92,11 @@ class HomeFragment : Fragment() {
                         Log.d("MyLogs", "SUCCESS")
 
                         val responseBody = response.body()?.string()
-                        Log.d("MyLogs", "Response Body: $responseBody")
                         val jsonObject = JSONObject(responseBody)
                         val generations = jsonObject.getJSONArray("generations")
                         if (generations.length() > 0) {
                             val filename = generations.getString(0)
                             val imageUrlWithFilename = imageUrl + filename
-                            Log.d("MyLogs", "Image URL: $imageUrlWithFilename")
 
                             val imageRequest = Request.Builder()
                                 .url(imageUrlWithFilename)
@@ -108,13 +106,11 @@ class HomeFragment : Fragment() {
                             client.newCall(imageRequest).enqueue(object : Callback {
                                 override fun onResponse(call: Call, response: Response) {
                                     if (response.isSuccessful) {
-                                        Log.d("MyLogs", "Image Request SUCCESS")
 
                                         activity?.runOnUiThread {
                                             imageAdapter.addImage(imageUrlWithFilename)
                                         }
                                     } else {
-                                        Log.d("MyLogs", "Image Request failed")
                                     }
                                 }
 

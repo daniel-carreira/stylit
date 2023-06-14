@@ -27,8 +27,6 @@ class ArchiveFragment : Fragment() {
     private lateinit var buttonPhoto: Button
 
     private val takephotoFragment = TakePhoto()
-    private lateinit var mPermissionResultLauncher: ActivityResultLauncher<Array<String>>
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,13 +47,6 @@ class ArchiveFragment : Fragment() {
         return view
     }
 
-    fun onImageClick(view: View) {
-        // Handle the click event here
-        Log.d("MyLogs", "Clickeeeeddd")
-
-    }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -66,17 +57,27 @@ class ArchiveFragment : Fragment() {
         }
 
         buttonPhoto.setOnClickListener {
-            Toast.makeText(requireContext(), "You clicked me.", Toast.LENGTH_SHORT).show()
             val fragmentManager = requireActivity().supportFragmentManager
             fragmentManager.beginTransaction()
                 .replace(R.id.container, takephotoFragment)
                 .commit()
         }
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val savedImagesDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        imageUris = savedImagesDirectory.listFiles()?.map { file -> Uri.fromFile(file) } ?: emptyList()
+
+        val view = binding.root
+
+        gridView = view.findViewById(R.id.gridView)
+        gridView.adapter = ArchiveAdapter(requireContext(), imageUris.map { uri -> uri.toString() })
     }
 }

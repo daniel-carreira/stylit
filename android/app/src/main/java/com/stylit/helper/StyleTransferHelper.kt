@@ -222,4 +222,6 @@ class StyleTransferHelper(
 
         private const val TAG = "Style Transfer Helper"
     }
+
+
 }
