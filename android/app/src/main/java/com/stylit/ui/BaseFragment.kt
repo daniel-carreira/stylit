@@ -15,7 +15,6 @@ class BaseFragment : Fragment() {
     private lateinit var binding: FragmentBaseBinding
 
     private val homeFragment = HomeFragment()
-    private val takephotoFragment = TakePhoto()
     private val archiveFragment = ArchiveFragment()
     private val profileFragment = ProfileFragment()
 
@@ -36,10 +35,6 @@ class BaseFragment : Fragment() {
             when (it.itemId) {
                 R.id.home -> {
                     navigateTo(homeFragment)
-                    true
-                }
-                R.id.takephoto -> {
-                    navigateTo(takephotoFragment)
                     true
                 }
                 R.id.archive -> {

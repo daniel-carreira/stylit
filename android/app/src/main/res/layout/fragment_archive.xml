@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!--
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabArchiveLayout"
         android:layout_width="match_parent"
@@ -19,13 +20,23 @@
             android:layout_height="wrap_content"
             android:text="Videos" />
 
-    </com.google.android.material.tabs.TabLayout>
+    </com.google.android.material.tabs.TabLayout>-->
+
+    <TextView
+        android:id="@+id/galleryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gallery"
+        android:textSize="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"/>
+
 
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tabArchiveLayout"
+        android:layout_below="@id/galleryTitle"
         android:numColumns="3"
         android:columnWidth="90dp"
         android:horizontalSpacing="10dp"
@@ -34,5 +45,20 @@
         android:stretchMode="columnWidth"
         >
     </GridView>
+
+    <Button
+        android:id="@+id/addPhotoButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/ic_round"
+        android:drawableStart="@drawable/baseline_camera_enhance_24_white"
+        android:drawablePadding="8dp"
+        android:padding="8dp"
+        android:text="+"
+        android:textSize="20dp"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

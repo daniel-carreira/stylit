@@ -1,13 +1,18 @@
 package com.stylit.ui.archive
 
+import ArchiveFragment
 import android.Manifest
+import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +23,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.stylit.R
 import com.stylit.databinding.FragmentTakePhotoBinding
+import java.io.IOException
 import java.io.OutputStream
 import java.util.*
 
@@ -45,7 +51,7 @@ class TakePhoto : Fragment() {
         mPermissionResultLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
-            openCamera()
+
 
         }
 
@@ -64,7 +70,33 @@ class TakePhoto : Fragment() {
         binding.saveButton.setOnClickListener {
             openCamera()
         }
+
+        binding.galleryButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, 3)
+        }
+
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            val selectedImage: Uri? = data.data
+            Log.d("MyLogs", "WGWEGEWG clicked")
+            val bitmap = data.data?.let { uri ->
+                try {
+                    val inputStream = context?.contentResolver?.openInputStream(uri)
+                    BitmapFactory.decodeStream(inputStream)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    null
+                }
+            }
+            bitmap?.let { saveImageToGallery(it) }
+        }
+    }
+
+
 
     private fun requestCameraPermission() {
         val isCameraPermissionGranted = ContextCompat.checkSelfPermission(
@@ -110,5 +142,10 @@ class TakePhoto : Fragment() {
             ).show()
             e.printStackTrace()
         }
+        val takePhotoFragment = ArchiveFragment()
+        val fragmentManager = requireActivity().supportFragmentManager
+        fragmentManager.beginTransaction()
+            .replace(R.id.container, takePhotoFragment)
+            .commit()
     }
 }

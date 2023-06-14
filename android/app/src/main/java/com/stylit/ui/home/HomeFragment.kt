@@ -1,27 +1,29 @@
 package com.stylit.ui.home
 
-import com.stylit.RequestHandler
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.internal.ViewUtils.dpToPx
 import com.stylit.R
+import com.stylit.databinding.FragmentBaseBinding
 import com.stylit.databinding.FragmentHomeBinding
-import com.stylit.ui.archive.ArchiveAdapter
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
+    private lateinit var _bindingNavbar: FragmentBaseBinding
+    private val bindingNavbar get() = _bindingNavbar!!
 
     private val binding get() = _binding!!
     private lateinit var sendButton: Button
@@ -31,17 +33,20 @@ class HomeFragment : Fragment() {
 
     private lateinit var textView: TextView
 
+    private lateinit var bottomNavigationView: BottomNavigationView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         val view = binding.root
-
         sendButton = view.findViewById(R.id.sendButton)
         textView = view.findViewById(R.id.inputEditText)
+
+        _bindingNavbar = FragmentBaseBinding.inflate(layoutInflater, container, false)
+        bottomNavigationView = bindingNavbar.root.findViewById(R.id.bottom_nav)
 
         recyclerView = view.findViewById(R.id.messageRecyclerView)
         recyclerView.adapter = ImageAdapter(requireContext(), recyclerView).also { adapter ->
@@ -129,6 +134,27 @@ class HomeFragment : Fragment() {
                 }
             })
         }
+
+        //SHOW AND HIDE TEXT NAVBAR ON TEXTINPUT
+        val navBar = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+        val rootLayout = requireActivity().findViewById<View>(android.R.id.content)
+        rootLayout.viewTreeObserver.addOnGlobalLayoutListener {
+            val heightDiff = rootLayout.rootView.height - rootLayout.height
+
+            if (heightDiff > dpToPx(requireContext(), 200)) { // Adjust the threshold as needed
+                // Keyboard is visible, hide the bottom navigation
+                navBar.visibility = View.GONE
+                Log.d("MyLogs", "Keyboard opened")
+            } else {
+                // Keyboard is not visible, show the bottom navigation
+                navBar.visibility = View.VISIBLE
+                Log.d("MyLogs", "Keyboard closed")
+            }
+        }
+    }
+
+    private fun dpToPx(context: Context, dp: Int): Int {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), context.resources.displayMetrics).toInt()
     }
 
     private fun extractFilename(url: String): String {

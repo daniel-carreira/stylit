@@ -20,6 +20,8 @@ import com.stylit.R
 import java.io.OutputStream
 import java.util.UUID
 
+
+
 class ImageAdapter(private val context: Context, private val recyclerView: RecyclerView) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val items: MutableList<Any> = mutableListOf()
