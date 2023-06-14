@@ -4,6 +4,7 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
+
     <style name="Theme.Stylit" parent="Base.Theme.Stylit">
         <item name="android:windowBackground">@color/darkest_gray</item>
 
@@ -20,6 +21,7 @@
         <item name="android:navigationBarColor">@color/darkest_gray</item>
 
     </style>
+
     <style name="Theme.Stylit.Navigation" parent="Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
         <item name="android:background">@color/darkest_gray</item>
     </style>

@@ -6,6 +6,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -132,25 +133,6 @@ class HomeFragment : Fragment() {
                 }
             })
         }
-
-        /*
-        //SHOW AND HIDE TEXT NAVBAR ON TEXTINPUT
-        val navBar = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
-        val rootLayout = requireActivity().findViewById<View>(android.R.id.content)
-        rootLayout.viewTreeObserver.addOnGlobalLayoutListener {
-            val heightDiff = rootLayout.rootView.height - rootLayout.height
-
-            if (heightDiff > dpToPx(requireContext(), 200)) { // Adjust the threshold as needed
-                // Keyboard is visible, hide the bottom navigation
-                navBar.visibility = View.GONE
-                Log.d("MyLogs", "Keyboard opened")
-            } else {
-                // Keyboard is not visible, show the bottom navigation
-                navBar.visibility = View.VISIBLE
-                Log.d("MyLogs", "Keyboard closed")
-            }
-        }
-         */
     }
 
     private fun dpToPx(context: Context, dp: Int): Int {

@@ -31,6 +31,10 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    task prepareKotlinBuildScriptModel {
+
+    }
+
     buildTypes {
         release {
             minifyEnabled false

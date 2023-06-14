@@ -50,18 +50,19 @@
                      android:layout_height="wrap_content"
                      android:layout_weight="2"
                      android:hint="Type your message"
+                     android:background="@drawable/rounded_background"
                      android:maxLines="2"
-                     app:backgroundTintMode="src_in" />
+                     android:padding="8dp"
+                     android:layout_marginTop="5dp"
+                     android:layout_marginRight="10dp" />
 
                  <com.google.android.material.button.MaterialButton
                      android:id="@+id/sendButton"
                      style="@style/Widget.Material3.Button.OutlinedButton"
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:layout_gravity="bottom"
-                     android:layout_weight="0.5"
-                     android:maxHeight="1dp"
                      android:text="Send"
+                     android:layout_gravity="bottom"
                      app:backgroundTintMode="src_in" />
 
              </LinearLayout>

@@ -2,7 +2,9 @@ package com.stylit.ui.home
 
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,10 +15,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.stylit.R
+import com.stylit.ui.archive.FullScreenActivity
+import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.util.UUID
 
@@ -30,8 +36,29 @@ class ImageAdapter(private val context: Context, private val recyclerView: Recyc
         val inflater = LayoutInflater.from(context)
         return if (viewType == VIEW_TYPE_IMAGE) {
             val view = inflater.inflate(R.layout.item_image, parent, false)
-            val button = view.findViewById<Button>(R.id.saveImageButton)
-            button.tag = "button_" + (items.size-1)
+            //val button = view.findViewById<Button>(R.id.saveImageButton)
+            //button.tag = "button_" + (items.size-1)
+
+            val imageViewSave = view.findViewById<ImageView>(R.id.imageViewSave)
+            imageViewSave.setOnClickListener {
+                // Handle the click event here
+                Log.d("MyLogs", "AAAAAAAAAAAAAAAAAAAAAAAAA")
+
+                val drawable = imageViewSave.drawable
+                val bitmap = (drawable as? BitmapDrawable)?.bitmap
+
+                if (bitmap != null) {
+                    val byteArrayOutputStream = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                    val byteArray = byteArrayOutputStream.toByteArray()
+
+                    val intent = Intent(context, FullScreenImageHome::class.java)
+                    intent.putExtra("imageBytes", byteArray)
+                    context.startActivity(intent)
+                }
+            }
+
+
             ImageViewHolder(view)
         } else {
             val view = inflater.inflate(R.layout.item_text, parent, false)
@@ -43,21 +70,6 @@ class ImageAdapter(private val context: Context, private val recyclerView: Recyc
         val item = items[position]
         if (holder is ImageViewHolder && item is String) {
             Picasso.get().load(item).into(holder.imageView)
-
-            // Set click listener for the button
-            val buttonSaveImage = holder.itemView.findViewById<Button>(R.id.saveImageButton)
-            val imageSave = holder.itemView.findViewById<ImageView>(R.id.imageViewSave)
-            buttonSaveImage.setOnClickListener {
-                val clickedPosition = holder.adapterPosition
-                Log.d("MyLogs", clickedPosition.toString())
-
-                // Convert ImageView to Bitmap
-                val bitmap = imageSave.drawable.toBitmap()
-
-                // Save the Bitmap
-                saveImageToGallery(bitmap)
-            }
-
         } else if (holder is TextViewHolder && item is String) {
             holder.textView.text = item
         }
@@ -118,17 +130,12 @@ class ImageAdapter(private val context: Context, private val recyclerView: Recyc
         recyclerView.smoothScrollToPosition(items.size - 1)
     }
 
-
     class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.imageViewSave)
     }
 
     class TextViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.textView)
-    }
-
-    fun getCount(): Int {
-        return items.size
     }
 
     companion object {
