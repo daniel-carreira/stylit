@@ -36,7 +36,7 @@ import java.lang.Integer.min
 
 class StyleTransferHelper(
     var numThreads: Int = 2,
-    var currentModel: Int = MODEL_FLOAT16,
+    var currentModel: Int = MODEL_INT8,
     val context: Context,
     val styleTransferListener: StyleTransferListener?
 ) {

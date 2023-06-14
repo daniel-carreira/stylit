@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import com.stylit.R
 import com.stylit.databinding.FragmentArchiveBinding
 import com.stylit.adapter.ArchiveAdapter
-import com.stylit.FullScreenActivity
+import com.stylit.ui.archive.FullScreenActivity
 import com.stylit.ui.archive.TakePhoto
 
 class ArchiveFragment : Fragment() {

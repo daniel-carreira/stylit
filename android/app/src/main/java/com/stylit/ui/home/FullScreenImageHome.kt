@@ -1,30 +1,16 @@
 package com.stylit.ui.home
 
-import ArchiveFragment
 import android.content.ContentValues
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.ContactsContract.Profile
 import android.provider.MediaStore
-import android.util.Log
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.fragment.app.FragmentManager
-import com.squareup.picasso.Picasso
 import com.stylit.R
-import com.stylit.ui.archive.ArchiveAdapter
-import com.stylit.ui.profile.ProfileFragment
 import java.io.OutputStream
 import java.util.UUID
 

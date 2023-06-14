@@ -48,13 +48,13 @@
                      android:id="@+id/inputEditText"
                      android:layout_width="0dp"
                      android:layout_height="wrap_content"
-                     android:layout_weight="2"
-                     android:hint="Type your message"
-                     android:background="@drawable/rounded_background"
-                     android:maxLines="2"
-                     android:padding="8dp"
                      android:layout_marginTop="5dp"
-                     android:layout_marginRight="10dp" />
+                     android:layout_marginRight="10dp"
+                     android:layout_weight="2"
+                     android:background="@drawable/rounded_background"
+                     android:hint="Type your message"
+                     android:maxLines="2"
+                     android:padding="12dp" />
 
                  <com.google.android.material.button.MaterialButton
                      android:id="@+id/sendButton"

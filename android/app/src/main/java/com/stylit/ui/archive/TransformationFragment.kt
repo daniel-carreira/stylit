@@ -4,14 +4,12 @@ import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -19,16 +17,14 @@ import com.stylit.R
 import com.stylit.adapter.StyleAdapter
 import com.stylit.databinding.FragmentTransformationBinding
 import com.stylit.helper.StyleTransferHelper
-import com.stylit.viewmodel.ArchiveViewModel
 import java.io.InputStream
-import java.nio.ByteBuffer
 
 class TransformationFragment : Fragment(), StyleTransferHelper.StyleTransferListener {
 
     private var _fragmentTransformationBinding: FragmentTransformationBinding? = null
     private val fragmentTransformationBinding get() = _fragmentTransformationBinding!!
     private lateinit var styleTransferHelper: StyleTransferHelper
-    private val viewModel: ArchiveViewModel by activityViewModels()
+    private lateinit var originalBitmap: Bitmap
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +38,7 @@ class TransformationFragment : Fragment(), StyleTransferHelper.StyleTransferList
         val imagePath = arguments?.getString("uri")!!
         val bitmap = BitmapFactory.decodeFile(imagePath)
 
-        viewModel.setInputImage(bitmap)
+        originalBitmap = bitmap
 
         return fragmentTransformationBinding.root
     }
@@ -51,8 +47,6 @@ class TransformationFragment : Fragment(), StyleTransferHelper.StyleTransferList
         super.onViewCreated(view, savedInstanceState)
 
         styleTransferHelper = StyleTransferHelper(
-            numThreads = viewModel.defaultModelNumThreads,
-            currentModel = viewModel.defaultModel,
             context = requireContext(),
             styleTransferListener = this
         )
@@ -91,17 +85,13 @@ class TransformationFragment : Fragment(), StyleTransferHelper.StyleTransferList
             }
         }
 
-        // Attach listeners to UI control widgets
-        viewModel.getInputBitmap()?.let { originalBitmap ->
-            // Display the original at the first time.
-            Glide.with(requireActivity().applicationContext)
-                .load(originalBitmap)
-                .centerCrop()
-                .into(fragmentTransformationBinding.imgStyled)
+        Glide.with(requireActivity())
+            .load(originalBitmap)
+            .centerCrop()
+            .into(fragmentTransformationBinding.imgStyled)
 
-            fragmentTransformationBinding.btnTransfer.setOnClickListener {
-                styleTransferHelper.transfer(originalBitmap)
-            }
+        fragmentTransformationBinding.btnTransfer.setOnClickListener {
+            styleTransferHelper.transfer(originalBitmap)
         }
     }
 
