@@ -13,8 +13,8 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import com.stylit.R
 import com.stylit.databinding.FragmentArchiveBinding
-import com.stylit.ui.archive.ArchiveAdapter
-import com.stylit.ui.archive.FullScreenActivity
+import com.stylit.adapter.ArchiveAdapter
+import com.stylit.FullScreenActivity
 import com.stylit.ui.archive.TakePhoto
 
 class ArchiveFragment : Fragment() {
@@ -39,27 +39,23 @@ class ArchiveFragment : Fragment() {
         imageUris = savedImagesDirectory.listFiles()?.map { file -> Uri.fromFile(file) } ?: emptyList()
 
         val view = binding.root
+
         gridView = view.findViewById(R.id.gridView)
         gridView.adapter = ArchiveAdapter(requireContext(), imageUris.map { uri -> uri.toString() })
-        buttonPhoto = view.findViewById(R.id.addPhotoButton)
 
-        gridView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            val intent = Intent(requireContext(), FullScreenActivity::class.java)
-            intent.putExtra("id", position)
-            startActivity(intent)
-        }
+        buttonPhoto = view.findViewById(R.id.addPhotoButton)
 
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
-         */
 
+        gridView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            val intent = Intent(requireContext(), FullScreenActivity::class.java)
+            intent.putExtra("uri", imageUris[position].path)
+            startActivity(intent)
+        }
 
         buttonPhoto.setOnClickListener {
             Toast.makeText(requireContext(), "You clicked me.", Toast.LENGTH_SHORT).show()

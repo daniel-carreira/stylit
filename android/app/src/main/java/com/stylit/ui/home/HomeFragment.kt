@@ -5,14 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.internal.ViewUtils.dpToPx
 import com.stylit.R
 import com.stylit.databinding.FragmentBaseBinding
 import com.stylit.databinding.FragmentHomeBinding
@@ -135,6 +133,7 @@ class HomeFragment : Fragment() {
             })
         }
 
+        /*
         //SHOW AND HIDE TEXT NAVBAR ON TEXTINPUT
         val navBar = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
         val rootLayout = requireActivity().findViewById<View>(android.R.id.content)
@@ -151,6 +150,7 @@ class HomeFragment : Fragment() {
                 Log.d("MyLogs", "Keyboard closed")
             }
         }
+         */
     }
 
     private fun dpToPx(context: Context, dp: Int): Int {

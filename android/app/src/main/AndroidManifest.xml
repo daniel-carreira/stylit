@@ -21,7 +21,7 @@
             android:name=".ui.archive.TakePhoto"
             android:exported="false" />
         <activity
-            android:name=".ui.archive.FullScreenActivity"
+            android:name=".FullScreenActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
