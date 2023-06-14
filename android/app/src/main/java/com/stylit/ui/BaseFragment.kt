@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import com.stylit.MainActivity2
 import com.stylit.R
 import com.stylit.databinding.FragmentBaseBinding
 import com.stylit.ui.archive.TakePhoto
+import com.stylit.ui.archive.TransformationFragment
 import com.stylit.ui.home.HomeFragment
 import com.stylit.ui.profile.ProfileFragment
 
@@ -18,6 +20,7 @@ class BaseFragment : Fragment() {
     private val takephotoFragment = TakePhoto()
     private val archiveFragment = ArchiveFragment()
     private val profileFragment = ProfileFragment()
+    private val transformFragment = TransformationFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +42,7 @@ class BaseFragment : Fragment() {
                     true
                 }
                 R.id.takephoto -> {
-                    navigateTo(takephotoFragment)
+                    navigateTo(transformFragment)
                     true
                 }
                 R.id.archive -> {

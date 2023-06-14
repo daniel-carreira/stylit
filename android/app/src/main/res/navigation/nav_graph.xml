@@ -1,22 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    ~ Copyright 2022 The TensorFlow Authors. All Rights Reserved.
+    ~
+    ~ Licensed under the Apache License, Version 2.0 (the "License");
+    ~ you may not use this file except in compliance with the License.
+    ~ You may obtain a copy of the License at
+    ~
+    ~       http://www.apache.org/licenses/LICENSE-2.0
+    ~
+    ~ Unless required by applicable law or agreed to in writing, software
+    ~ distributed under the License is distributed on an "AS IS" BASIS,
+    ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    ~ See the License for the specific language governing permissions and
+    ~ limitations under the License.
+-->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/permissions_fragment">
+
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.stylit.ui.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/permissions_fragment"
+        android:name="com.stylit.ui.PermissionsFragment"
+        android:label="PermissionsFragment">
+
+        <action
+            android:id="@+id/action_permissions_to_camera"
+            app:destination="@id/camera_fragment"
+            app:popUpTo="@id/permissions_fragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
     <fragment
-        android:id="@+id/archiveFragment"
-        android:name="com.stylit.ui.archive.ArchiveFragment"
-        android:label="fragment_archive"
-        tools:layout="@layout/fragment_archive" />
+        android:id="@+id/camera_fragment"
+        android:name="com.stylit.ui.CameraFragment"
+        android:label="CameraFragment">
+
+        <action
+            android:id="@+id/action_camera_to_permissions"
+            app:destination="@id/permissions_fragment" />
+        <action
+            android:id="@+id/action_camera_fragment_to_transformation_fragment"
+            app:destination="@id/transformation_fragment" />
+    </fragment>
+
     <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.stylit.ui.profile.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        android:id="@+id/transformation_fragment"
+        android:name="com.stylit.ui.archive.TransformationFragment"
+        android:label="fragment_transformation"
+        tools:layout="@layout/fragment_transformation">
+        <action
+            android:id="@+id/action_transformation_fragment_to_camera_fragment"
+            app:destination="@id/camera_fragment" />
+    </fragment>
 </navigation>
