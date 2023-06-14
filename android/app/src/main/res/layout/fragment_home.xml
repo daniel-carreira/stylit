@@ -7,63 +7,68 @@
     android:layout_marginHorizontal="15sp"
     tools:context=".ui.home.HomeFragment">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--  <ImageView
+         android:id="@+id/imageViewStyle"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"/> -->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/messageRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="8dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@id/inputLayout"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:stackFromEnd="true" />
+     <LinearLayout
+         android:orientation="vertical"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputLayout"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:padding="8dp"
-            app:boxStrokeColor="@color/vivid_red"
-            app:boxStrokeWidth="2dp"
-            app:hintEnabled="false">
+         <androidx.recyclerview.widget.RecyclerView
+             android:id="@+id/messageRecyclerView"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_weight="1"
+             android:padding="8dp"
+             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+             app:layout_constraintBottom_toTopOf="@id/inputLayout"
+             app:layout_constraintTop_toBottomOf="@id/toolbar"
+             app:stackFromEnd="true" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+         <com.google.android.material.textfield.TextInputLayout
+             android:id="@+id/inputLayout"
+             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignParentBottom="true"
+             android:padding="8dp"
+             app:boxStrokeColor="@color/vivid_red"
+             app:boxStrokeWidth="2dp"
+             app:hintEnabled="false">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/inputEditText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:hint="Type your message"
-                    android:maxLines="2"
-                    app:backgroundTintMode="src_in" />
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:orientation="horizontal">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/sendButton"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_weight="0.5"
-                    android:maxHeight="1dp"
-                    android:text="Send"
-                    app:backgroundTintMode="src_in" />
+                 <com.google.android.material.textfield.TextInputEditText
+                     android:id="@+id/inputEditText"
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="2"
+                     android:hint="Type your message"
+                     android:maxLines="2"
+                     app:backgroundTintMode="src_in" />
 
-            </LinearLayout>
+                 <com.google.android.material.button.MaterialButton
+                     android:id="@+id/sendButton"
+                     style="@style/Widget.Material3.Button.OutlinedButton"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="bottom"
+                     android:layout_weight="0.5"
+                     android:maxHeight="1dp"
+                     android:text="Send"
+                     app:backgroundTintMode="src_in" />
+
+             </LinearLayout>
 
 
 
-        </com.google.android.material.textfield.TextInputLayout>
+         </com.google.android.material.textfield.TextInputLayout>
 
-    </LinearLayout>
-</FrameLayout>
+     </LinearLayout>
+ </FrameLayout>

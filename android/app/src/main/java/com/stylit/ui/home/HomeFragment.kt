@@ -2,48 +2,145 @@ package com.stylit.ui.home
 
 import com.stylit.RequestHandler
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+import com.stylit.R
 import com.stylit.databinding.FragmentHomeBinding
+import com.stylit.ui.archive.ArchiveAdapter
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 
 class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
-    private val requestHandler = RequestHandler()
+    private var _binding: FragmentHomeBinding? = null
+
+    private val binding get() = _binding!!
+    private lateinit var sendButton: Button
+    private lateinit var recyclerView: RecyclerView
+
+    private lateinit var imageAdapter: ImageAdapter
+
+    private lateinit var textView: TextView
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        val view = binding.root
+
+        sendButton = view.findViewById(R.id.sendButton)
+        textView = view.findViewById(R.id.inputEditText)
+
+        recyclerView = view.findViewById(R.id.messageRecyclerView)
+        recyclerView.adapter = ImageAdapter(requireContext(), recyclerView).also { adapter ->
+            imageAdapter = adapter
+        }
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.sendButton.setOnClickListener {
-            val url = "https://www.google.com/"
-            val requestData = "{ \"key\": \"value\" }"
+        val baseUrl = "http://192.168.0.177:8080/api/v1/images/"
+        val generateUrl = baseUrl + "generate"
+        val imageUrl = baseUrl //+ "2023-06-13_18-13-57_0.jpeg"
 
-            requestHandler.getRequest(url) { response ->
-                if (response.isSuccessful) {
-                    val responseData = response.body()?.string()
-                    println(responseData)
-                } else {
-                    println(response)
-                }
+        sendButton.setOnClickListener {
+            Toast.makeText(context, "You clicked me.", Toast.LENGTH_SHORT).show()
+            Log.d("MyLogs", "button clicked")
+
+            Log.d("MyLogs", textView.text.toString())
+            if (textView.text.isEmpty()){
+                Toast.makeText(context, "Insert some text to generate images", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-            /*
-            requestHandler.postRequest(url, requestData) { response ->
-                // Process the response as needed
-                if (response.isSuccessful) {
-                    val responseData = response.body()?.string()
-                    println(responseData)
-                } else {
-                    println(response)
+
+            val requestBody = JSONObject()
+                .put("text", textView.text.toString())
+                .put("num_images", 1)
+                .toString()
+
+            val request = Request.Builder()
+                .url(generateUrl)
+                .post(RequestBody.create(MediaType.parse("application/json"), requestBody))
+                .build()
+
+            val client = OkHttpClient()
+
+            imageAdapter.addText(textView.text.toString())
+
+            client.newCall(request).enqueue(object : Callback {
+                override fun onResponse(call: Call, response: Response) {
+                    if (response.isSuccessful) {
+                        Log.d("MyLogs", "SUCCESS")
+
+                        val responseBody = response.body()?.string()
+                        Log.d("MyLogs", "Response Body: $responseBody")
+                        val jsonObject = JSONObject(responseBody)
+                        val generations = jsonObject.getJSONArray("generations")
+                        if (generations.length() > 0) {
+                            val filename = generations.getString(0)
+                            val imageUrlWithFilename = imageUrl + filename
+                            Log.d("MyLogs", "Image URL: $imageUrlWithFilename")
+
+                            val imageRequest = Request.Builder()
+                                .url(imageUrlWithFilename)
+                                .get()
+                                .build()
+
+                            client.newCall(imageRequest).enqueue(object : Callback {
+                                override fun onResponse(call: Call, response: Response) {
+                                    if (response.isSuccessful) {
+                                        Log.d("MyLogs", "Image Request SUCCESS")
+
+                                        activity?.runOnUiThread {
+                                            imageAdapter.addImage(imageUrlWithFilename)
+                                        }
+                                    } else {
+                                        Log.d("MyLogs", "Image Request failed")
+                                    }
+                                }
+
+                                override fun onFailure(call: Call, e: IOException) {
+                                    Log.e("MyLogs", "Image Request failed: ${e.message}")
+                                }
+                            })
+                        }
+                    } else {
+                        Log.d("MyLogs", "Generate Request failed")
+                    }
                 }
-            }
-            */
+
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.e("MyLogs", "Generate Request failed: ${e.message}")
+                }
+            })
         }
+    }
+
+    private fun extractFilename(url: String): String {
+        val slashIndex = url.lastIndexOf('/')
+        if (slashIndex != -1 && slashIndex < url.length - 1) {
+            return url.substring(slashIndex + 1)
+        }
+        return ""
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
