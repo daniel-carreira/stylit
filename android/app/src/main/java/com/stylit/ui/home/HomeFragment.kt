@@ -6,7 +6,6 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -58,14 +57,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val baseUrl = "http://192.168.0.177:8080/api/v1/images/"
+        val baseUrl = "https://4a92-2-82-227-15.ngrok-free.app/api/v1/images/"
         val generateUrl = baseUrl + "generate"
-        val imageUrl = baseUrl //+ "2023-06-13_18-13-57_0.jpeg"
 
         sendButton.setOnClickListener {
-            Toast.makeText(context, "You clicked me.", Toast.LENGTH_SHORT).show()
-            Log.d("MyLogs", "button clicked")
-
             Log.d("MyLogs", textView.text.toString())
             if (textView.text.isEmpty()){
                 Toast.makeText(context, "Insert some text to generate images", Toast.LENGTH_SHORT).show()
@@ -86,6 +81,9 @@ class HomeFragment : Fragment() {
 
             imageAdapter.addText(textView.text.toString())
 
+            // Clean Text
+            textView.text = ""
+
             client.newCall(request).enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful) {
@@ -96,7 +94,7 @@ class HomeFragment : Fragment() {
                         val generations = jsonObject.getJSONArray("generations")
                         if (generations.length() > 0) {
                             val filename = generations.getString(0)
-                            val imageUrlWithFilename = imageUrl + filename
+                            val imageUrlWithFilename = baseUrl + filename
 
                             val imageRequest = Request.Builder()
                                 .url(imageUrlWithFilename)
@@ -110,10 +108,8 @@ class HomeFragment : Fragment() {
                                         activity?.runOnUiThread {
                                             imageAdapter.addImage(imageUrlWithFilename)
                                         }
-                                    } else {
                                     }
                                 }
-
                                 override fun onFailure(call: Call, e: IOException) {
                                     Log.e("MyLogs", "Image Request failed: ${e.message}")
                                 }

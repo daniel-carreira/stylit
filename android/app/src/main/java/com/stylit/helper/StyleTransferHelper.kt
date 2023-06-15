@@ -80,15 +80,8 @@ class StyleTransferHelper(
             tfliteOption.addDelegate(GpuDelegate())
         }
 
-        val modelPredict: String
-        val modelTransfer: String
-        if (currentModel == MODEL_INT8) {
-            modelPredict = "predict_int8.tflite"
-            modelTransfer = "transfer_int8.tflite"
-        } else {
-            modelPredict = "predict_float16.tflite"
-            modelTransfer = "transfer_float16.tflite"
-        }
+        val modelPredict = "predict.tflite"
+        val modelTransfer = "transfer.tflite"
 
         try {
             interpreterPredict = Interpreter(
@@ -169,11 +162,6 @@ class StyleTransferHelper(
 
     fun setStyleImage(bitmap: Bitmap) {
         styleImage = bitmap
-    }
-
-    fun clearStyleTransferHelper() {
-        interpreterPredict = null
-        interpreterTransform = null
     }
 
     // Preprocess the image and convert it into a TensorImage for

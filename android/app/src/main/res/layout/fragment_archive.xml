@@ -4,39 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabArchiveLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Photos" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Videos" />
-
-    </com.google.android.material.tabs.TabLayout>-->
-
-    <TextView
-        android:id="@+id/galleryTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gallery"
-        android:textSize="30dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"/>
-
-
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/galleryTitle"
         android:numColumns="3"
         android:columnWidth="90dp"
         android:horizontalSpacing="10dp"
