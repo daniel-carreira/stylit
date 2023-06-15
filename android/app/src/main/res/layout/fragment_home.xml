@@ -49,7 +49,7 @@
                      android:layout_marginRight="10dp"
                      android:layout_weight="1"
                      android:background="@drawable/rounded_background"
-                     android:hint="Send a message."
+                     android:hint="Write something..."
                      android:maxLines="2"
                      android:padding="12dp" />
 
@@ -59,7 +59,7 @@
                      android:layout_height="wrap_content"
                      android:layout_gravity="bottom"
                      android:layout_weight="0"
-                     android:text="Send"
+                     android:text="Generate"
                      app:backgroundTintMode="src_in" />
 
              </LinearLayout>
