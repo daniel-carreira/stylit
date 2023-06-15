@@ -18,6 +18,7 @@ import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 
+
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private lateinit var _bindingNavbar: FragmentBaseBinding
@@ -45,6 +46,7 @@ class HomeFragment : Fragment() {
 
         _bindingNavbar = FragmentBaseBinding.inflate(layoutInflater, container, false)
         bottomNavigationView = bindingNavbar.root.findViewById(R.id.bottom_nav)
+
 
         recyclerView = view.findViewById(R.id.messageRecyclerView)
         recyclerView.adapter = ImageAdapter(requireContext(), recyclerView).also { adapter ->
@@ -80,6 +82,7 @@ class HomeFragment : Fragment() {
             val client = OkHttpClient()
 
             imageAdapter.addText(textView.text.toString())
+            updateEmptyTextVisibility()
 
             // Clean Text
             textView.text = ""
@@ -107,6 +110,7 @@ class HomeFragment : Fragment() {
 
                                         activity?.runOnUiThread {
                                             imageAdapter.addImage(imageUrlWithFilename)
+                                            updateEmptyTextVisibility()
                                         }
                                     }
                                 }
@@ -137,6 +141,15 @@ class HomeFragment : Fragment() {
             return url.substring(slashIndex + 1)
         }
         return ""
+    }
+
+    // Method to update the visibility of the empty text based on the adapter's item count
+    private fun updateEmptyTextVisibility() {
+        if (imageAdapter.itemCount == 0) {
+            binding.emptyTextView.visibility = View.VISIBLE // Show the empty text
+        } else {
+            binding.emptyTextView.visibility = View.GONE // Hide the empty text
+        }
     }
 
     override fun onDestroyView() {
